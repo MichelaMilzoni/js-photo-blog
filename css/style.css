@@ -15,7 +15,7 @@ body{
 
 
 img {
-  max-width: 100%;
+  height: 100%;
 }
 
     /* UTILITY */
@@ -80,9 +80,21 @@ img {
 
 
     /* HEADER */
+    header {
+      background-image: url('../img/wall.png');
+      background-size: cover; /* Adatta l'immagine per coprire tutto lo spazio */
+      background-position: center; /* Centra l'immagine */
+      background-repeat: no-repeat; /* Evita che l'immagine si ripeta */
+      height: 120px;
+
+      display: flex; /* Attiva Flexbox */
+      align-items: center; /* Centra verticalmente */
+      justify-content: center; 
+    }
+    
 h1 {
   font-family: "Edu TAS Beginner";
-  font-size: xxx-large;
+  font-size: 60px;
   font-weight: bold;
 }
     
@@ -96,17 +108,20 @@ main {
 }
 
 .card {
+width: 20rem;
+
 position: relative;
 overflow: visible;
 }
 
 .card .card-title {
   font-family: "Edu TAS Beginner";
+  font-size: 2rem;
 }
 
 .thumbtack {
-  width: 15px;
-  height: 15px;
+  width: 30px;
+  height: 30px;
   background: linear-gradient(
     to bottom, /* Direzione dall'alto verso il basso */
     red, /* Rosso predominante in alto */
@@ -116,7 +131,7 @@ overflow: visible;
 
   position: relative; /* Allows for precise placement on the card */
   bottom: 47%;
-  left: 35%;
+  left: 45%;
   transform: translateX(-50%);
   z-index: 2;
 }
@@ -124,28 +139,27 @@ overflow: visible;
 /* Small devices (landscape phones, 576px >) */
 @media (min-width: 576px) { 
   .thumbtack {
-    left: 28%;
+    left: 35%;
   } 
 }
 
 /* Medium devices (tablets, 768px >) */
 @media (min-width: 768px) {   
   .thumbtack {
-    left: 44%;
+    left: 50%;
   } 
 }
 
 /* Large devices (desktops, 992px >) */
 @media (min-width: 992px) { 
   .thumbtack {
-    left: 50%;
+    left: 40%;
   } 
 }
 
-/* X-Large devices (large desktops, 1200px >) */
 @media (min-width: 1200px) { 
   .thumbtack {
-    left: 45%;
+    left: 55%;
   } 
 }
 
