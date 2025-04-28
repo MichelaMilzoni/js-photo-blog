@@ -50,7 +50,9 @@ axios.get(apiUrl)
 
             //! struttura card
             col.innerHTML = `
-                <div class="thumbtack"></div>
+                <div class="thumbtack">
+                    <img src="./img/pin.svg" alt="pin">
+                </div>
                 <div class="card">
                     <div class="card-img">
                         <img src="${item.url}" class="card-img-top p-3" alt="...">
