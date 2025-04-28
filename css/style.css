@@ -121,6 +121,14 @@ overflow: visible;
   font-size: 2rem;
 }
 
+  /* card hover */
+.card .card-img:hover {
+  transform: scale(1.2) rotate(10deg); /* zoom e rotazione fluida*/
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5); /*intensità ombra*/
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* animazione fluida */
+  cursor: pointer;
+}
+
 .thumbtack {
   width: 30px;
   height: 30px;
@@ -152,10 +160,20 @@ overflow: visible;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: 1000;
+
+  display: none;
+  opacity: 0; /*invisibile*/
+  transform: scale(0.8); /* leggermente più piccolo */
+  transition: opacity 0.5s ease, transform 0.5s ease; /*effetti graduali*/
+}
+
+.overlay.show {
+  display: flex;
+  opacity: 1; /*completamente visibile*/
+  transform: scale(1); /*torna alla dimensione normale*/
 }
 
 .overlay-content {
@@ -180,6 +198,29 @@ overflow: visible;
   height: auto;
   margin-bottom: 20px;
   cursor: pointer;
+
+  transform: scale(1); /* Stato iniziale */
+  transition: transform 0.5s ease-in-out; /* Animazione fluida */
+}
+
+.zoom-animation {
+  transform: scale(1.2); /* Ingrandisce gradualmente */
+}
+
+.flip-animation {
+  animation: flip 0.8s ease-in-out; /* Durata e fluidità dell'animazione */
+}
+
+@keyframes flip {
+  0% {
+      transform: rotateY(0deg);
+  }
+  50% {
+      transform: rotateY(90deg); /* Vista laterale */
+  }
+  100% {
+      transform: rotateY(0deg); /* Torna alla posizione iniziale */
+  }
 }
 
 #close-overlay {

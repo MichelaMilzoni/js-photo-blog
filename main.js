@@ -62,16 +62,23 @@ axios.get(apiUrl)
                 const item = data.find(item => item.id === itemId); //Cerco l'oggetto corrispondente 
                 
                 if (item) {
-                    showOverlay(item);
+                    // Aggiungi la classe "flip-animation" per l'effetto sfogliata
+                    const img = itemNode.querySelector(".card-img img"); // Seleziono l'immagine specifica
+                    img.classList.add("flip-animation");
+        
+                    // mostro l'overlay dopo che l'animazione è completata
+                    img.addEventListener("animationend", () => {
+                        img.classList.remove("flip-animation"); //rimuovo l'animazione
+                        showOverlay(item); //mostro l'overlay
+                    }, {once: true }); //garantisco che l'evento venga eseguito una volta sola
                 }
             });
         });
     })
     //! gestione degli errori
     .catch(error => {
-        console.error("Errore durante il recupero dei dati", error);
-        // gestisce gli errori che potrebbere verificarsi durante la richiesta HTTP
-        });
+        console.error("Errore durante il recupero dei dati:", error);
+    });
 });
 
 //! funzione per creare le card
@@ -96,7 +103,7 @@ const generateCards = (item) => {
 //! funzione per mostrare l'overlay - crearlo dinamicamente
 const showOverlay = (item) => {
     const overlay = document.createElement("div")
-    overlay.className = "overlay d-flex";
+    overlay.className = "overlay";
     overlay.innerHTML = `
         <div class="overlay-content">
             <img src="${item.url}" class="img-fluid" alt="${item.title}">
@@ -106,6 +113,11 @@ const showOverlay = (item) => {
 
     //! aggiungo l'overlay al body
     document.body.appendChild(overlay);
+
+    //! aggiungo la classe "show" con un leggero ritardo per animare l'entrata
+    setTimeout(() => {
+        overlay.classList.add("show");
+    }, 100); //ritardo per attivare l'animazione (100ms)
 
     //! sfoco lo sfondo
     const bodyContainer = document.getElementById("body-container");
