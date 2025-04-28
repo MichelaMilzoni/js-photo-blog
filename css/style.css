@@ -140,6 +140,11 @@ overflow: visible;
 
     /* OVERLAY */
 
+.blurred {
+  filter: blur(5px); /* intensità della sfocatura */
+  transition: filter 0.3s ease; /* animazione fluida per il cambio */
+}
+
 .overlay {
   position: fixed;
   top: 0;

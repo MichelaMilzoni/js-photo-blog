@@ -107,9 +107,14 @@ const showOverlay = (item) => {
     //! aggiungo l'overlay al body
     document.body.appendChild(overlay);
 
+    //! sfoco lo sfondo
+    const bodyContainer = document.getElementById("body-container");
+    bodyContainer.classList.add("blurred"); //aggiungo sfocatura
+
     //! chiudo l'overlay al click del bottone
     document.getElementById("close-overlay").addEventListener("click", () => {
         overlay.remove(); //rimuove l'overlay dal DOM
+        bodyContainer.classList.remove("blurred"); //rimuovo la sfocatura
     });
 };
 
