@@ -16,6 +16,7 @@ body{
 
 img {
   height: 100%;
+  cursor: pointer;
 }
 
     /* UTILITY */
@@ -135,4 +136,94 @@ overflow: visible;
   bottom: 13rem;
   transform: translateX(-50%);
   z-index: 2;
+}
+
+    /* OVERLAY */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.overlay-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 60%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  position: relative
+}
+
+.overlay-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.overlay img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#close-overlay {
+  position: absolute; /* Posizionamento assoluto relativo a .overlay-content */
+  top: 10px; /* Posiziona il pulsante in alto */
+  right: 10px; /* Posiziona il pulsante a destra */
+  background: black;
+  color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+
+#close-overlay:hover {
+  background: red; /* Cambia colore quando il mouse passa sopra */
+}
+
+/* Responsive overlay */
+@media (max-width: 768px) {
+  .overlay-content {
+    min-width: 80%; /* Rendi l'overlay più stretto su dispositivi piccoli */
+    padding: 15px;
+  }
+
+  #close-overlay {
+    width: 25px; /* Riduci dimensioni del pulsante su schermi piccoli */
+    height: 25px;
+    font-size: 0.9rem;
+  }
+
+  .overlay-title {
+    font-size: 2rem;
+  } 
+}
+
+
+@media (max-width: 1200px) {
+  .overlay-content {
+    max-width: 70%; /* Rendi l'overlay più stretto su dispositivi piccoli */
+    padding: 15px;
+  }
 }

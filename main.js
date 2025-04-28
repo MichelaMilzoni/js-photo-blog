@@ -36,51 +36,82 @@ axios.get(apiUrl)
         //* quindi sto estraendo e dati JSON forniti dall'API e li assegno alla variabile data
         const bodyContainer = document.getElementById("body-container")
         // ottengo un riferimento (ID html) nel punto del DOM in cui i nuovi contenuti saranno inseriti
+        let cardsHTML= ''; // inizializzo una stringa per raccogliere il contenuto html
     
-        //! creo la riga per la card 
-        const row = document.createElement("div");
-        row.className = "row"; // classe Bootstrap row
-
         data.forEach(item => {
         // per ogni (forEach) elemento (data) dell'API creo una struttura dinamica 
-
-            //! creo una colonna
-            const col = document.createElement("col");
-            col.className = "col d-flex align-items-center justify-content-center"; // 3 colonne per riga con Bootstrap
-
-            //! struttura card
-            col.innerHTML = `
-                <div class="thumbtack">
-                    <img src="./img/pin.svg" alt="pin">
-                </div>
-                <div class="card">
-                    <div class="card-img">
-                        <img src="${item.url}" class="card-img-top p-3" alt="...">
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text card-title">${item.title}</p>
-                        <data class="card-data" value="">${item.date}</data>
-                    </div>
-                </div>
-            `;
-
-            //! aggiungo la colonna alla riga
-            row.appendChild(col);
+            cardsHTML += generateCards(item);
         });
 
-        //! aggiungo la riga al contenitore - AGGIUNTA DEL CONTENUTO AL DOM
-        bodyContainer.appendChild(row);
-        // inserisce il codice HTML generato (cardHtml) nel contenitore (bodyContainer)
-        // += aggiunge il nuovo contenuto senza sovrascrivere quello esistente
-    })
+        //! aggiungo le card al contenitore in un' unica operazione
+        bodyContainer.innerHTML = 
+        //! creo una row in cui inserire le card
+        `
+        <div class="row">
+            ${cardsHTML}
+        </div>
+        `;
 
+        //! ottengo i nodi degli elementi card
+        const itemsNodes = document.querySelectorAll(".card");
+
+        //! aggiungo evento al click sull'immagine
+        itemsNodes.forEach(itemNode => {
+            itemNode.addEventListener("click", () => {
+                const itemId = parseInt(itemNode.getAttribute("data-item-id")); //recupero l'ID
+                const item = data.find(item => item.id === itemId); //Cerco l'oggetto corrispondente 
+                
+                if (item) {
+                    showOverlay(item);
+                }
+            });
+        });
+    })
     //! gestione degli errori
     .catch(error => {
         console.error("Errore durante il recupero dei dati", error);
-    });
-    // gestisce gli errori che potrebbere verificarsi durante la richiesta HTTP
+        // gestisce gli errori che potrebbere verificarsi durante la richiesta HTTP
+        });
 });
 
+//! funzione per creare le card
+const generateCards = (item) => {
+    return `
+    <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-center">
+        <div class="thumbtack">
+            <img src="./img/pin.svg" class="img-fluid" alt="pin">
+        </div>
+        <div class="card" data-item-id="${item.id}">
+            <div class="card-img">
+                <img src="${item.url}" class="card-img-top p-3 img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+                <p class="card-text card-title">${item.title}</p>
+                <data class="card-data" value="">${item.date}</data>
+            </div>
+        </div>
+    </div>`;
+};
+
+//! funzione per mostrare l'overlay - crearlo dinamicamente
+const showOverlay = (item) => {
+    const overlay = document.createElement("div")
+    overlay.className = "overlay d-flex";
+    overlay.innerHTML = `
+        <div class="overlay-content">
+            <img src="${item.url}" class="img-fluid" alt="${item.title}">
+            <p class="overlay-title">${item.title}</p>
+            <button id="close-overlay">X</button>
+        </div>`
+
+    //! aggiungo l'overlay al body
+    document.body.appendChild(overlay);
+
+    //! chiudo l'overlay al click del bottone
+    document.getElementById("close-overlay").addEventListener("click", () => {
+        overlay.remove(); //rimuove l'overlay dal DOM
+    });
+};
 
 //TODO In sintesi, questo script:
 
