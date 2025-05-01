@@ -181,7 +181,7 @@
     max-width: 35%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   
-    position: relative
+    position: relative;
   }
   
   .overlay-title {
@@ -221,15 +221,15 @@
   }
   
   #close-overlay {
-    position: absolute; /* Posizionamento assoluto relativo a .overlay-content */
-    top: 10px; /* Posiziona il pulsante in alto */
-    right: 10px; /* Posiziona il pulsante a destra */
-    background: black;
-    color: #fff;
+    position: absolute;
+    top: -30px; /* Sposta sopra l'immagine */
+    right: -30px; /* Sposta a destra dell'immagine */
+    background: transparent;
+    color: black;
     border-radius: 50%;
+    border: 2px solid black;
     width: 30px;
     height: 30px;
-    border: none;
     padding: 0;
     cursor: pointer;
     font-size: 1rem;
@@ -237,9 +237,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
-  }
-  
+}
+
+  #overlay-button-right,
+  #overlay-button-left  {
+    background: none;
+    border: none;
+    position: absolute;
+    transform: translateY(-50%); /* Centra verticalmente */
+    font-size: 20px; /* Rendi il bottone più visibile */
+
+    cursor: pointer;
+
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+
+
+    color: #fff;
+}
+
+#overlay-button-right {
+  position: absolute;
+  top: 50%;
+  right: -50px; /* Ora è veramente a destra */
+  transform: translateY(-50%);
+}
+
+#overlay-button-left {
+  position: absolute;
+  top: 50%;
+  left: -50px; /* Ora è veramente a sinistra */
+  transform: translateY(-50%);
+}
   
   #close-overlay:hover {
     background: red; /* Cambia colore quando il mouse passa sopra */
@@ -252,6 +282,29 @@
       max-width: 55%; /* Rendi l'overlay più stretto su dispositivi piccoli */
       padding: 15px;
     }
+
+    #close-overlay {
+      width: 30px;
+      height: 30px;
+      font-size: 1.5rem;
+
+      top: -25px;
+      right: -25px;
+    }
+
+    #overlay-button-right { 
+      right: -45px; 
+    }
+
+    #overlay-button-left { 
+      left: -45px; 
+    }
+
+    #overlay-button-right,
+    #overlay-button-left {
+      font-size: 2rem;
+    }
+
     } 
   
   @media (max-width: 1200px) {
@@ -259,6 +312,23 @@
       max-width: 55%; /* Rendi l'overlay più stretto su dispositivi piccoli */
       padding: 15px;
     }
+
+    #close-overlay { 
+      top: -25px;
+      right: -25px;
+    }
+
+    #overlay-button-right { 
+      right: -40px; 
+      font-size: 1.7rem;
+
+    }
+    
+    #overlay-button-left { 
+      left: -40px; 
+      font-size: 1.7rem;
+    }
+
   } 
   
   @media (max-width: 992px) {
@@ -266,14 +336,26 @@
       max-width: 50%; /* Rendi l'overlay più stretto su dispositivi piccoli */
       padding: 15px;
     }
-  } 
-  
-  @media (max-width: 768px) {
-    #close-overlay {
-      width: 25px; /* Riduci dimensioni del pulsante su schermi piccoli */
-      height: 25px;
-      font-size: 0.9rem;
+
+      #close-overlay { 
+        top: -20px;
+        right: -20px;
+        width: 25px; 
+        height: 25px; 
+
+        font-size: 1rem;
+      }
+
+      #overlay-button-right { 
+        right: -35px; 
+      } 
+      
+      #overlay-button-left { 
+        left: -35px; 
+      }
     }
+
+  @media (max-width: 768px) {
   
     .overlay-title {
       font-size: 2rem;
@@ -291,11 +373,46 @@
     .overlay-title {
       font-size: 1.5rem;
     }
+
+    .overlay-content {
+      max-width: 55%;
+      padding: 15px;
   }
+
+  #close-overlay { 
+    top: -20px;
+    right: -20px;
+    width: 25px;
+    height: 25px;
+  }
+
+  #overlay-button-right { 
+    right: -30px; 
+    font-size: 1.7rem;
+  } 
+  
+  #overlay-button-left { 
+    left: -30px; 
+    font-size: 1.7rem;
+  }
+}
   
   @media (max-width: 576px) {
     .overlay-content {
         max-width: 65%;
         padding: 15px;
     }
-  }
+
+    #overlay-button-right { 
+      right: -30px; 
+    }
+    
+    #overlay-button-left { 
+      left: -30px; 
+    }
+
+    #close-overlay {
+      top: -20px;
+      right: -20px;
+    }
+}

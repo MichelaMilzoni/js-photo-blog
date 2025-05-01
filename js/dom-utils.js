@@ -39,13 +39,28 @@ function createOverlayHTML(item) { // item: paramentro (oggetto che contiene pro
         <img src="${item.url}" class="img-fluid" alt="${item.title}">
         <p class="overlay-title">${item.title}</p>
         <button id="close-overlay">X</button>
+        <button id="overlay-button-right"> 
+            <i class="fa-regular fa-circle-right" style="color: #000000;"></i>
+        </button>
+        <button id="overlay-button-left" > 
+            <i class="fa-regular fa-circle-left" style="color: #000000;"></i>
+        </button>
     </div>`;
 }
 //* ${item.url} - ${item.title} proprietà contenute nell'oggetto 
 
 
 //! OVERLAY - visualizzare un overlay dinamico (sovrapposizione visiva) su una pagina web
-function showOverlay(item) {
+function showOverlay(item, data) {
+    if (!data) { // Controllo che data non sia undefined
+        console.error("Errore: data è undefined!");
+        return; // Blocca l'esecuzione se data non è valido
+    }
+    
+    console.log("Data ricevuto in showOverlay:", data);
+    currentIndex = data.findIndex(el => el.id === item.id);
+    console.log("Indice attuale:", currentIndex);
+
     const overlay = document.createElement("div");
     overlay.className = "overlay";
     overlay.innerHTML = createOverlayHTML(item);
@@ -53,15 +68,18 @@ function showOverlay(item) {
     document.body.appendChild(overlay);
     setTimeout(() => overlay.classList.add("show"), 100);
 
-    blurBackground();
-    addCloseEventToOverlay(overlay);
+    blurBackground(); // Aggiungi l' evento sfocatura
+    addCloseEventToOverlay(overlay); // Aggiungi gli eventi di chiusura overlay (tasto x)
+    addNavigationEvents(overlay, data); // Aggiungi gli eventi per navigare con le frecce
 }
 
+//! sfoco lo sfondo  
 function blurBackground() {
     const bodyContainer = document.getElementById("body-container");
     bodyContainer.classList.add("blurred");
 }
 
+//! aggiungo evento di chiusura overlay (tasto X) 
 function addCloseEventToOverlay(overlay) {
     const closeButton = overlay.querySelector("#close-overlay");
     closeButton.addEventListener("click", () => {
@@ -69,4 +87,39 @@ function addCloseEventToOverlay(overlay) {
         const bodyContainer = document.getElementById("body-container");
         bodyContainer.classList.remove("blurred");
     });
+}
+
+//? scorrimento foto con frecce destra/sinistra 
+
+let currentIndex = 0;
+
+//! aggiunge il comportamento ai pulsanti, permettendo la navigazione tra le immagini 
+function addNavigationEvents(overlay, data) {
+    const btnRight = overlay.querySelector("#overlay-button-right");
+    const btnLeft = overlay.querySelector("#overlay-button-left");
+
+    btnRight.addEventListener("click", () => navigateOverlay(1, overlay, data));  // Vai avanti
+    btnLeft.addEventListener("click", () => navigateOverlay(-1, overlay, data)); // Vai indietro
+}
+
+//! aggiorna l'overlay con la nuova immagine, 
+function navigateOverlay(direction, overlay, data) {
+    currentIndex += direction; // Aggiorna l'indice
+    console.log("Indice aggiornato:", currentIndex);
+
+    // Assicurati che non superi i limiti dell'array
+    if (currentIndex < 0) {
+        currentIndex = data.length - 1; // Vai all'ultima foto
+    } else if (currentIndex >= data.length) {
+        currentIndex = 0; // Torna alla prima foto
+    }
+
+    const newItem = data[currentIndex]; // Prendi il nuovo elemento
+    console.log("Nuovo item visualizzato:", newItem);
+
+    // Aggiorna l'overlay con la nuova immagine
+    overlay.innerHTML = createOverlayHTML(newItem);
+    
+    addCloseEventToOverlay(overlay); // Riaggiungi evento chiusura
+    addNavigationEvents(overlay, data); // Riaggiungi eventi di navigazione
 }
