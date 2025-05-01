@@ -16,10 +16,23 @@ function addClickEventToCard(itemNode, data) {
 function addFlipAnimation(itemNode, item, data) {
     console.log("Data ricevuto in addFlipAnimation:", data);
     const img = itemNode.querySelector(".card-img img");
+    const pin = itemNode.closest(".col-12")?.querySelector(".thumbtack img"); // Trova il pin
+    console.log("Elemento itemNode:", itemNode);
+    console.log("Elemento thumbtack:", pin);
+
+    if (pin) {  // Controllo aggiunto!
+        pin.classList.add("hidden"); // Ora si applica solo se `pin` esiste!
+    } else {
+        console.warn("Attenzione: pin non trovato!"); // Stampa un messaggio di avviso
+    }
+
+    pin.classList.add("hidden"); // Nasconde il pin durante l'animazione
     img.classList.add("flip-animation");
 
     img.addEventListener("animationend", () => {
         img.classList.remove("flip-animation");
+        console.log("Chiamando showOverlay con:", item); // 👀 Debug
+        pin.classList.remove("hidden"); // Rendi visibile di nuovo il pin dopo l'animazione
         showOverlay(item, data);
     }, { once: true });
 }

@@ -219,6 +219,11 @@
         transform: rotateY(0deg); /* Torna alla posizione iniziale */
     }
   }
+
+  .hidden {
+    opacity: 0; /* Rende l'elemento invisibile */
+    transition: opacity 0.3s ease-in-out; /* Effetto di transizione */
+}
   
   #close-overlay {
     position: absolute;
