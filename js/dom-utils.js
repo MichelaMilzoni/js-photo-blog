@@ -4,7 +4,8 @@
 //? GENERAZIONE CARD
 
 //! funzione per generare la card (HTML)
-function generateCardHTML(item) {
+function generateCardHTML(item) { // paramentro in entrata ITEM
+    // la funzione ritorna l'HTML della card
     return `
     <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-center">
         <div class="thumbtack">
@@ -58,15 +59,16 @@ function showOverlay(item, data) {
     }
     
     console.log("Data ricevuto in showOverlay:", data);
-    currentIndex = data.findIndex(el => el.id === item.id);
+    currentIndex = data.findIndex(el => el.id === item.id); 
+    // cerca nel parametro data (findIndex) l'id dell'elemento e lo assegna a current Index
     console.log("Indice attuale:", currentIndex);
 
-    const overlay = document.createElement("div");
-    overlay.className = "overlay";
-    overlay.innerHTML = createOverlayHTML(item);
+    const overlay = document.createElement("div"); // creo il DIV per l'overlay 
+    overlay.className = "overlay"; // assegno al DIV la classe "overlay"
+    overlay.innerHTML = createOverlayHTML(item); // aggiungo il return ITEM dalla funzione createOverlayHTML alla costante overlay
 
-    document.body.appendChild(overlay);
-    setTimeout(() => overlay.classList.add("show"), 100);
+    document.body.appendChild(overlay); // inserisco nel body HTML la variabile overlay creata 
+    setTimeout(() => overlay.classList.add("show"), 100); // dopo 100 millisecondi aggiunge la classe "show" (display flex opacity 1)
 
     blurBackground(); // Aggiungi l' evento sfocatura
     addCloseEventToOverlay(overlay); // Aggiungi gli eventi di chiusura overlay (tasto x)
@@ -74,51 +76,59 @@ function showOverlay(item, data) {
 }
 
 //! sfoco lo sfondo  
-function blurBackground() {
-    const bodyContainer = document.getElementById("body-container");
-    bodyContainer.classList.add("blurred");
+function blurBackground() { 
+    const bodyContainer = document.getElementById("body-container"); // assegno alla variabile bodyContainer l'ID HTML "body-container"
+    bodyContainer.classList.add("blurred"); // aggiungo la classe "blurred" x sfocare lo sfondo quando l'overlay viene attivato
 }
 
 //! aggiungo evento di chiusura overlay (tasto X) 
-function addCloseEventToOverlay(overlay) {
-    const closeButton = overlay.querySelector("#close-overlay");
-    closeButton.addEventListener("click", () => {
-        overlay.remove();
-        const bodyContainer = document.getElementById("body-container");
-        bodyContainer.classList.remove("blurred");
+function addCloseEventToOverlay(overlay) { //paramentro overlay (creato nella funzione showOverlay)
+    const closeButton = overlay.querySelector("#close-overlay"); // richiamo la classe "#close-overlay" e la assegno alla variabile closeButton
+    closeButton.addEventListener("click", () => { //aggiungo evento al click del closeButton
+        overlay.remove(); // rimuovo l'overlay
+        const bodyContainer = document.getElementById("body-container"); // richiamo body-container tramite il suo ID HTML
+        bodyContainer.classList.remove("blurred"); // rimuovo la classe blurred dal bodyContainer
     });
 }
 
 //? scorrimento foto con frecce destra/sinistra 
 
-let currentIndex = 0;
+let currentIndex = 0; // creo variabile per raggiungere l'INDEX delle card
 
 //! aggiunge il comportamento ai pulsanti, permettendo la navigazione tra le immagini 
-function addNavigationEvents(overlay, data) {
-    const btnRight = overlay.querySelector("#overlay-button-right");
-    const btnLeft = overlay.querySelector("#overlay-button-left");
+function addNavigationEvents(overlay, data) { //parametro overlay (creato nella funzione showOverlay - dom-utils.js), 
+                                              //paramentro data ( creato nella funzione addEventListener - main js) 
+    const btnRight = overlay.querySelector("#overlay-button-right"); // richiamo overlay-button-right tramite la classe
+    const btnLeft = overlay.querySelector("#overlay-button-left"); // richiamo overlay-button-left tramite la classe
 
-    btnRight.addEventListener("click", () => navigateOverlay(1, overlay, data));  // Vai avanti
+    btnRight.addEventListener("click", () => navigateOverlay(1, overlay, data));  // Vai avanti 
+        // aggiungo evento click richiamando la funzione navigateOverlay che lo gestisce
     btnLeft.addEventListener("click", () => navigateOverlay(-1, overlay, data)); // Vai indietro
+        // aggiungo evento click  richiamando la funzione navigateOverlay che lo gestisce
 }
 
 //! aggiorna l'overlay con la nuova immagine, 
 function navigateOverlay(direction, overlay, data) {
+    // paramentro direction assume valore 1 se viene cliccata la freccia destra e -1 per quella sinistra 
+    //                      (creato nella funzione addNavigationEvents - dom-utils.js))
+    // paramentro overlay (creato nella funzione showOverlay - dom-utils.js)
+    // parametro data ( creato nella funzione addEventListener - main js)
     currentIndex += direction; // Aggiorna l'indice
     console.log("Indice aggiornato:", currentIndex);
 
     // Assicurati che non superi i limiti dell'array
-    if (currentIndex < 0) {
+    if (currentIndex < 0) { // se currentIndex < 0
         currentIndex = data.length - 1; // Vai all'ultima foto
-    } else if (currentIndex >= data.length) {
+    } else if (currentIndex >= data.length) { // altrimenti 
         currentIndex = 0; // Torna alla prima foto
     }
 
-    const newItem = data[currentIndex]; // Prendi il nuovo elemento
+    const newItem = data[currentIndex]; // Prendo il nuovo elemento e lo assegno alla variabile newItem
     console.log("Nuovo item visualizzato:", newItem);
 
     // Aggiorna l'overlay con la nuova immagine
-    overlay.innerHTML = createOverlayHTML(newItem);
+    overlay.innerHTML = createOverlayHTML(newItem); // aggiungo all'overlay (creato nella funzione showOverlay - dom-utils.js)
+                                                    // il nuovo elemento
     
     addCloseEventToOverlay(overlay); // Riaggiungi evento chiusura
     addNavigationEvents(overlay, data); // Riaggiungi eventi di navigazione

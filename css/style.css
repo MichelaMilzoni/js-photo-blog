@@ -134,8 +134,6 @@
   }
   
   .thumbtack {
-  
-  
     position: relative; /* Allows for precise placement on the card */
     left: 12rem;
     bottom: 13rem;
